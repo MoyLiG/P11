@@ -1,0 +1,41 @@
+# =====================================================================
+# docker-compose.yml - POC RAG Puls-Events
+#
+# Usage :
+#   1. cp .env.example .env  &&  edit .env  (MISTRAL_API_KEY)
+#   2. docker compose build
+#   3. docker compose run --rm rag python scripts/pipeline.py  # build index
+#   4. docker compose up rag                                    # demo Streamlit
+#
+# Tests :
+#   docker compose run --rm rag pytest tests/test_data_freshness.py \
+#                                       tests/test_data_geography.py \
+#                                       tests/test_preprocessing.py -v
+# =====================================================================
+
+services:
+  rag:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: pulsevents-rag:latest
+    container_name: pulsevents-rag
+    env_file:
+      - .env
+    ports:
+      - "8501:8501"
+    volumes:
+      # Persiste les donnees regenerables (pas commitees, mais on garde
+      # entre les `up`/`down` pour eviter de re-payer l'embedding)
+      - ./data/raw:/app/data/raw
+      - ./data/processed:/app/data/processed
+      - ./data/vectorstore:/app/data/vectorstore
+      - ./data/embed_cache:/app/data/embed_cache
+      - ./data/eval:/app/data/eval
+    restart: unless-stopped
+    # Securite : limites de ressources (defense en profondeur)
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+          cpus: "2.0"

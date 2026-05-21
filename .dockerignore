@@ -1,0 +1,32 @@
+# Reduit la taille du contexte de build (~95%)
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Secrets et donnees locales
+.env
+data/raw/
+data/processed/
+data/vectorstore/
+data/embed_cache/
+
+# Documentation generee (.docx/.pptx sont produits dans le conteneur si besoin)
+# On garde les .md sources
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Git
+.git/
+.gitignore
+
+# Plans Claude (hors projet)
+.claude/

@@ -1,0 +1,85 @@
+# =====================================================================
+# Configuration POC RAG Puls-Events
+# =====================================================================
+
+# --- Source de donnees Open Agenda (via Opendatasoft) -----------------
+data_source:
+  base_url: "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/evenements-publics-openagenda/records"
+  page_size: 100             # Max impose par l'API (limit max 100)
+  request_timeout_s: 30
+  retry_attempts: 4
+  retry_initial_wait_s: 1
+
+# --- Filtres metier ---------------------------------------------------
+filters:
+  region: "Pays de la Loire" # Region parente (preservee pour la coherence narrative)
+  department: "Loire-Atlantique"  # Resserrement metier (Nantes, Saint-Nazaire, presqu'ile)
+  city: null                 # Optionnel ex: "Nantes" pour focus encore plus serre
+  since_days: 365            # Evenements de moins d'un an (consigne projet)
+  max_records: 10000         # Plafond /records (Opendatasoft) ; au-dela basculer sur /exports/json
+                             # 10 000 events suffisent largement pour un POC RAG.
+  time_mode: "upcoming"      # "upcoming" : events a venir ou en cours (lastdate_end >= today
+                             #              ET firstdate_begin <= today + 365j) - bon pour chatbot
+                             # "historical": events des 365 derniers jours (firstdate_begin >= today-365j)
+
+# --- Pre-processing ---------------------------------------------------
+preprocessing:
+  min_description_length: 30 # Filtre les events sans description utile
+  # Filtre anti-bruit : Open Agenda agrege des contributeurs non culturels
+  # (France Travail, formations, administratif) qui polluent le retrieval.
+  exclude_title_keywords:    # exclu si le titre (sans accent, minuscule) contient un terme
+    - "job dating"
+    - "alternance dating"
+    - "cap emploi"
+    - "forum emploi"
+    - "opportunites d'emploi"
+    - "opportunites emploi"
+    - "agence interimaire"
+    - "interimaires professionnels"
+    - "digital learning manager"
+    - "maitriser linkedin"
+    - "indemnisation"
+    - "fin de droits"
+    - "comment choisir ma mutuelle"
+    - "trouve ton job"
+  exclude_agendas:           # exclu si originagenda_title contient un terme
+    - "france travail"
+    - "pole emploi"
+
+# --- Chunking ---------------------------------------------------------
+# chunk_size=1200 + overlap=80 : compromis ajuste pour les descriptions
+# Open Agenda (souvent < 1500 chars). Reduit le nb de chunks de ~30%
+# et l'overlap relatif de 15% a 7% (-30% sur le cout d'embedding).
+chunking:
+  chunk_size: 1200
+  chunk_overlap: 80
+
+# --- Modeles Mistral --------------------------------------------------
+models:
+  embedding_model: "mistral-embed"          # 1024 dim
+  llm_model: "mistral-small-latest"
+  llm_temperature: 0.2
+  embedding_batch_size: 24            # reste sous la limite tokens/batch Mistral
+  embedding_min_interval_s: 1.1       # interval mini entre 2 appels embed (anti-429)
+                                      # tier gratuit La Plateforme : 1.1
+                                      # tier paye (>5 EUR/mois bill) :  0.3
+                                      # tier scale (contact sales) : 0.15
+
+# --- Retrieval --------------------------------------------------------
+retrieval:
+  search_type: "mmr"         # mmr = diversite ; alternative: "similarity"
+  k: 6                       # Nb chunks retournes au LLM
+  fetch_k: 18                # Pool initial pour MMR (proportionnel a k)
+  max_question_length: 500   # Garde-fou anti-DoS / coût (cf. security audit)
+  max_answer_tokens: 400     # Cap output Mistral (cf. security + cost audits)
+  use_hybrid: true           # EnsembleRetriever BM25 + dense (RRF) - robuste sur correspondances
+                             # exactes (noms de villes, festivals) que la similarite seule peut rater
+  bm25_weight: 0.4           # 0.4 BM25 + 0.6 dense (somme = 1) ; ajuster selon profil de requetes
+
+# --- Chemins ----------------------------------------------------------
+paths:
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  vectorstore_dir: "data/vectorstore"
+  eval_dataset: "data/eval/qa_dataset.json"
+  eval_results: "data/eval/results.csv"

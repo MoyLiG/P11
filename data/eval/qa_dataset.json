@@ -1,0 +1,182 @@
+[
+  {
+    "id": 1,
+    "category": "ville",
+    "question": "Quels evenements ont lieu a Nantes prochainement ?",
+    "expected_answer": "Plusieurs evenements se deroulent a Nantes : citer au moins un evenement avec son titre, ses dates et le lieu.",
+    "expected_source_uids": ["59597088", "49841638", "95142822", "64083615", "57088940", "14370998", "73623257"],
+    "out_of_scope": false,
+    "notes": "Question generale - on attend que le bot retrouve des events de Nantes (et agglo) et les cite."
+  },
+  {
+    "id": 2,
+    "category": "ville",
+    "question": "Que faire a Saint-Nazaire ce mois-ci ?",
+    "expected_answer": "Citer un ou plusieurs evenements culturels situes a Saint-Nazaire (44600), avec dates et lieu.",
+    "expected_source_uids": ["27745059", "49110318"],
+    "out_of_scope": false,
+    "notes": "Bordure presqu'ile / estuaire. Bcp de bruit emploi (job dating) dans les candidats."
+  },
+  {
+    "id": 3,
+    "category": "hors_scope",
+    "question": "Y a-t-il des choses a faire a Angers cette semaine ?",
+    "expected_answer": "Je n'ai pas trouve d'evenement correspondant dans ma base.",
+    "expected_source_uids": [],
+    "out_of_scope": true,
+    "notes": "Angers = Maine-et-Loire, hors du departement filtre (Loire-Atlantique). Le bot doit refuser."
+  },
+  {
+    "id": 4,
+    "category": "thematique",
+    "question": "Quels concerts de musique classique sont prevus en Pays de la Loire ?",
+    "expected_answer": "Citer un ou plusieurs concerts ou recitals de musique classique a venir (orchestre symphonique, orgue, musique de chambre, etc.), avec titre, dates et lieu.",
+    "expected_source_uids": ["53166120", "61859054", "55492215", "82212292", "28741309"],
+    "out_of_scope": false,
+    "notes": "Recherche thematique large. Reponse attendue generique (pas d'event specifique impose)."
+  },
+  {
+    "id": 5,
+    "category": "thematique",
+    "question": "Quelles expositions d'art contemporain sont visibles en region ?",
+    "expected_answer": "Citer une ou plusieurs expositions d'art contemporain a venir ou en cours en Loire-Atlantique (FRAC, galeries, musees...), avec titre, dates et lieu.",
+    "expected_source_uids": ["28003468", "96185159", "2740755", "495732", "36901429"],
+    "out_of_scope": false,
+    "notes": ""
+  },
+  {
+    "id": 6,
+    "category": "thematique",
+    "question": "Y a-t-il des spectacles de theatre pour enfants ?",
+    "expected_answer": "Citer un ou plusieurs spectacles jeune public (theatre, conte, marionnettes...) a venir, avec titre, dates et lieu, ou indiquer l'absence.",
+    "expected_source_uids": ["64083615", "5580139", "52806553", "67756026", "12090244", "36670730"],
+    "out_of_scope": false,
+    "notes": "Recherche thematique + audience."
+  },
+  {
+    "id": 7,
+    "category": "thematique",
+    "question": "Recommande-moi un festival de musique cet ete.",
+    "expected_answer": "Recommander un festival musical estival a venir en Loire-Atlantique, avec titre, dates et lieu.",
+    "expected_source_uids": ["57712492", "31632651", "63800806", "76935241", "73230760"],
+    "out_of_scope": false,
+    "notes": "Reponse attendue generique (pas d'event specifique impose)."
+  },
+  {
+    "id": 8,
+    "category": "thematique",
+    "question": "Quelles activites en plein air sont proposees ?",
+    "expected_answer": "Citer une ou plusieurs activites en plein air a venir (balades, concerts exterieurs, projections, decouvertes), avec titre, dates et lieu.",
+    "expected_source_uids": ["26719635", "50389335", "23868462", "58478465", "36792078", "52782815"],
+    "out_of_scope": false,
+    "notes": ""
+  },
+  {
+    "id": 9,
+    "category": "date",
+    "question": "Que se passe-t-il ce week-end ?",
+    "expected_answer": "Citer un ou plusieurs evenements ayant lieu durant le prochain week-end, ou indiquer qu'aucun n'est trouve pour cette date.",
+    "expected_source_uids": [],
+    "out_of_scope": false,
+    "notes": "Filtre temporel strict. Le retriever n'a pas ramene d'event pile sur le week-end cible : uids non annotes (mesure via cosine/juge)."
+  },
+  {
+    "id": 10,
+    "category": "date",
+    "question": "Quels evenements sont prevus en juillet 2026 ?",
+    "expected_answer": "Citer des evenements ayant lieu en juillet 2026 (s'il y en a) ou indiquer l'absence.",
+    "expected_source_uids": ["62205175", "1263401", "29470669"],
+    "out_of_scope": false,
+    "notes": "Date precise. Plusieurs candidats chevauchent juillet."
+  },
+  {
+    "id": 11,
+    "category": "lieu",
+    "question": "Connais-tu des evenements en presqu'ile guerandaise ?",
+    "expected_answer": "Citer des evenements a Guerande, Le Pouliguen, La Baule, Le Croisic ou autour.",
+    "expected_source_uids": ["88743799", "47528306", "78100415"],
+    "out_of_scope": false,
+    "notes": "Verifie la comprehension geographique fine."
+  },
+  {
+    "id": 12,
+    "category": "hors_scope",
+    "question": "Quels evenements ont lieu en Vendee ?",
+    "expected_answer": "Je n'ai pas trouve d'evenement correspondant dans ma base.",
+    "expected_source_uids": [],
+    "out_of_scope": true,
+    "notes": "Vendee (85) = hors du departement filtre (Loire-Atlantique). Le bot doit refuser."
+  },
+  {
+    "id": 13,
+    "category": "specifique",
+    "question": "Quels spectacles d'humour ou one-man-show sont programmes ?",
+    "expected_answer": "Citer un ou plusieurs spectacles d'humour / one-man-show a venir, avec titre, dates et lieu, ou indiquer l'absence.",
+    "expected_source_uids": ["86053156", "30911241", "88900849", "21871532"],
+    "out_of_scope": false,
+    "notes": "Remplace l'ancienne question sur La Folle Journee (festival de janvier, hors base en mode upcoming)."
+  },
+  {
+    "id": 14,
+    "category": "specifique",
+    "question": "Y a-t-il des festivals prevus cet ete en Loire-Atlantique ?",
+    "expected_answer": "Citer un ou plusieurs festivals (musique, arts de rue, patrimoine...) programmes durant l'ete a venir en Loire-Atlantique, avec dates et lieu.",
+    "expected_source_uids": ["57712492", "31632651", "61079405", "7056844"],
+    "out_of_scope": false,
+    "notes": "Question saisonniere generique (l'ancienne ciblait Les Escales, dont la presence depend du contenu)."
+  },
+  {
+    "id": 15,
+    "category": "hors_scope",
+    "question": "Quelle est la capitale de l'Italie ?",
+    "expected_answer": "Je n'ai pas trouve d'evenement correspondant dans ma base.",
+    "expected_source_uids": [],
+    "out_of_scope": true,
+    "notes": "Le bot doit refuser de repondre car hors-domaine."
+  },
+  {
+    "id": 16,
+    "category": "hors_scope",
+    "question": "Donne-moi la recette des galettes bretonnes.",
+    "expected_answer": "Je n'ai pas trouve d'evenement correspondant dans ma base.",
+    "expected_source_uids": [],
+    "out_of_scope": true,
+    "notes": "Hors-domaine cuisine."
+  },
+  {
+    "id": 17,
+    "category": "hors_scope",
+    "question": "Quels evenements ont lieu a Marseille ?",
+    "expected_answer": "Je n'ai pas trouve d'evenement correspondant dans ma base.",
+    "expected_source_uids": [],
+    "out_of_scope": true,
+    "notes": "Hors region : le bot doit refuser plutot que d'inventer."
+  },
+  {
+    "id": 18,
+    "category": "thematique",
+    "question": "Y a-t-il des conferences scientifiques ou des colloques ?",
+    "expected_answer": "Citer une ou plusieurs conferences / colloques a venir, avec titre, dates et lieu, ou indiquer l'absence.",
+    "expected_source_uids": ["14644372", "19255299", "96210032"],
+    "out_of_scope": false,
+    "notes": ""
+  },
+  {
+    "id": 19,
+    "category": "thematique",
+    "question": "Quels evenements gratuits puis-je trouver ?",
+    "expected_answer": "Citer des evenements gratuits si la base le precise, sinon indiquer l'absence d'info tarifaire.",
+    "expected_source_uids": ["82089009", "88087741", "95142822"],
+    "out_of_scope": false,
+    "notes": "L'info tarifaire n'est pas toujours dans Open Agenda - test de robustesse."
+  },
+  {
+    "id": 20,
+    "category": "thematique",
+    "question": "Quels concerts de rock ou de musiques actuelles sont prevus ?",
+    "expected_answer": "Citer un ou plusieurs concerts de rock / musiques actuelles a venir (salles type Stereolux, Trempo, Zenith...), avec titre, dates et lieu.",
+    "expected_source_uids": ["11514143", "79076441", "52548327", "98565883"],
+    "out_of_scope": false,
+    "notes": "Remplace l'ancienne question Hellfest (dont la presence en base depend des dates)."
+  }
+]

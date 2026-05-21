@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Env
+.venv/
+venv/
+.env
+
+# Donnees brutes / index / caches (regenerables)
+data/raw/
+data/processed/
+data/vectorstore/
+data/embed_cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Claude Code (config locale)
+.claude/

@@ -58,3 +58,23 @@ def test_hybrid_config_round_trip(settings):
     assert isinstance(settings.retrieval.use_hybrid, bool)
     assert hasattr(settings.retrieval, "bm25_weight")
     assert 0.0 <= settings.retrieval.bm25_weight <= 1.0
+
+
+def test_summarize_aggregates_metrics():
+    """summarize() calcule hit_rate, cosine, judge depuis un DataFrame."""
+    import pandas as pd
+
+    from pulsevents_rag.evaluation import summarize
+
+    df = pd.DataFrame(
+        {
+            "hit": [1, 0, 1, None],
+            "cosine": [0.9, 0.8, 0.85, 0.7],
+            "judge_score": [5, 3, 4, None],
+        }
+    )
+    s = summarize(df)
+    assert s["n_questions"] == 4
+    assert abs(s["hit_rate"] - (2 / 3)) < 1e-6  # 2 hits sur 3 mesurables
+    assert abs(s["cosine"] - 0.8125) < 1e-6
+    assert abs(s["judge"] - 4.0) < 1e-6

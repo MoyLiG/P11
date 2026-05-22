@@ -26,11 +26,32 @@ from langchain_community.vectorstores import FAISS
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.retrievers import BaseRetriever
 from langchain_mistralai import ChatMistralAI
+from tenacity import (
+    before_sleep_log,
+    retry,
+    retry_if_not_exception_type,
+    stop_after_attempt,
+    wait_exponential,
+)
 
 from pulsevents_rag.config import Settings
 from pulsevents_rag.vectorstore import load_documents_for_bm25, load_index
 
 logger = logging.getLogger(__name__)
+
+
+@retry(
+    # Retry sur tout sauf les erreurs metier (question trop longue) :
+    # couvre les HTTP 429 Mistral et le bug KeyError de langchain-mistralai.
+    retry=retry_if_not_exception_type((ValueError, TypeError, KeyboardInterrupt)),
+    wait=wait_exponential(multiplier=2, min=2, max=60),
+    stop=stop_after_attempt(6),
+    before_sleep=before_sleep_log(logger, logging.WARNING),
+    reraise=True,
+)
+def _invoke_with_retry(chain, payload: dict):
+    """Invoque la chaine RAG avec retry exponentiel (anti rate-limit Mistral)."""
+    return chain.invoke(payload)
 
 
 _DAY_FR = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"]
@@ -254,7 +275,8 @@ class RagPipeline:
             )
         # Log tronque pour eviter la fuite de PII (cf. audit M3)
         logger.info("Question : %s%s", question[:60], "..." if len(question) > 60 else "")
-        result = self.chain.invoke({"input": question})
+        # Retry exponentiel : absorbe les HTTP 429 Mistral (tier gratuit ~1 req/s)
+        result = _invoke_with_retry(self.chain, {"input": question})
         # Filet de securite : retire d'eventuelles balises <events> que le
         # LLM reproduirait malgre l'instruction du prompt.
         answer_text = re.sub(r"</?events>\s*", "", result["answer"]).strip()

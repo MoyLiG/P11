@@ -110,6 +110,26 @@ les artefacts disque).
 
 ---
 
+## Lecon 16 - Variance des metriques LLM : moyenner sur plusieurs runs
+
+**Contexte** : 4 runs de la meme eval donnent juge 3,85-4,30 (variable),
+cosine 0,888-0,896 (stable), hit_rate 100% (stable).
+
+**Cause** : un LLM n'est PAS deterministe meme a temperature 0 (batching
+serveur + non-associativite des flottants GPU). Le juge LLM (entier 0-5)
+saute brutalement ; le cosine (distance continue) est lisse ; le
+retriever est deterministe.
+
+**Application** : reporter moyenne +/- ecart-type sur N runs, jamais un
+run unique. Implementer un mode multi-run. Garder les metriques
+deterministes (hit_rate, cosine) en primaire, le juge en secondaire.
+
+**Generalisation** : en production, distinguer une vraie derive d'une
+variance de mesure, sinon fausses alertes. Mesurer la variance AVANT de
+fixer des seuils d'alerte.
+
+---
+
 ## Lecon 15 - Filtrer le bruit a la source (qualite de donnees)
 
 **Contexte** : Open Agenda agrege des contributeurs heterogenes. Un

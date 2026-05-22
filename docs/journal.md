@@ -712,6 +712,86 @@ Enseignement : nettoyer à la source est une bonne pratique même quand le
 gain agrégé est faible, car cela réduit le risque sur les cas limites et
 améliore la précision sans dépendre de la robustesse du LLM.
 
+## J18 — 429 sur l'appel chat runtime
+
+### Symptôme
+
+CLI : question « Sortie à St Nazaire ce week-end » →
+`httpx.HTTPStatusError: 429 Rate limit exceeded` sur
+`api.mistral.ai/v1/chat/completions`.
+
+### Cause
+
+On avait protégé les appels Mistral à 3 endroits (embeddings via
+`RateLimitedMistralEmbeddings`, indexation, évaluation via `_retry_call`)
+mais PAS l'appel chat du runtime RAG. Le retriever embed la query
+(protégé) puis le LLM génère (non protégé) → sur tier gratuit ~1 req/s,
+les deux appels rapprochés déclenchent un 429 sur le second.
+
+### Fix
+
+`_invoke_with_retry()` dans
+[src/pulsevents_rag/rag.py](src/pulsevents_rag/rag.py) : wrappe
+`chain.invoke` avec retry exponentiel tenacity (backoff 2-60 s, 6
+tentatives, ne retry pas les ValueError). Couvre CLI et Streamlit
+(les deux passent par `RagPipeline.answer`).
+
+### Lecon
+
+Tous les points d'appel d'une API externe doivent être protégés, pas
+seulement les plus évidents. Ici 4 chemins distincts touchent Mistral
+(embeddings indexation, embeddings éval, chat éval, chat runtime). Une
+centralisation (un client Mistral unique rate-limité) serait plus propre
+en v1 ; en POC, on couvre chaque chemin.
+
+## J19 — Variance des métriques + mode multi-run
+
+### Observation utilisateur
+
+4 runs successifs de `05_evaluate.py` donnent des résultats différents :
+cosine 0,888-0,896 (stable), juge 3,85-4,30 (variable). hit_rate 100 %
+à chaque run.
+
+### Explication
+
+Trois composants, deux non déterministes :
+- **Retriever** (FAISS + BM25) : déterministe → hit_rate stable.
+- **Embeddings** (`mistral-embed`) : déterministes → ne créent pas de variance.
+- **Génération** (`mistral-small`, T=0.2) : reformule à chaque run → fait
+  légèrement bouger le cosine.
+- **Juge LLM** (`mistral-small`, T=0.0) : **non déterministe même à T=0**
+  (batching serveur + non-associativité des flottants GPU) → principale
+  source de variance, saute de plusieurs points sur les cas limites
+  (ex. Q6 : 1/5 puis 5/5).
+
+Le cosine (distance continue) est plus stable que le juge (entier discret
+0-5 qui saute brutalement). **Le cosine est donc une métrique plus robuste
+que le juge LLM.**
+
+### Fix : mode multi-run
+
+`evaluate_multi()` dans
+[src/pulsevents_rag/evaluation.py](src/pulsevents_rag/evaluation.py)
+relance N fois et agrège moyenne ± écart-type. Exposé via
+`python scripts/05_evaluate.py --runs 3`.
+
+Refacto au passage : imports LLM rendus paresseux (TYPE_CHECKING +
+import dans la fonction) pour que `summarize()` soit testable sans la
+stack complète (test offline ajouté).
+
+### Chiffres robustes (sur 4 runs)
+
+- **juge = 4,15 ± 0,18 / 5**
+- **cosine = 0,893 ± 0,003**
+- **hit_rate = 100 %** (déterministe)
+
+### Lecon
+
+Une métrique LLM-as-judge a une variance qu'il faut mesurer : reporter
+moyenne ± écart-type, jamais un run unique. En production, c'est
+essentiel pour distinguer une vraie dérive d'une simple variance de
+mesure (sinon fausses alertes).
+
 ## Bilan d'apprentissage
 
 1. **La distinction Le Chat / API Mistral n'est pas évidente** pour un

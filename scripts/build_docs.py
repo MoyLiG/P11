@@ -378,6 +378,13 @@ def main() -> int:
         DOCS / "deroule_projet.docx",
         title="Deroule du projet - POC RAG Puls-Events",
     )
+    synthese = DOCS / "synthese_soutenance.md"
+    if synthese.exists():
+        md_to_docx(
+            synthese,
+            DOCS / "synthese_soutenance.docx",
+            title="Synthese soutenance - POC RAG Puls-Events",
+        )
     build_pptx(DOCS / "presentation.pptx")
     return 0
 

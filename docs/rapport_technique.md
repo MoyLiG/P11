@@ -144,13 +144,15 @@ Résultats du run d'évaluation (`scripts/05_evaluate.py`) sur l'index `upcoming
 | Métrique | Mesuré | Lecture |
 |---|---|---|
 | `hit_rate@k` (14 questions annotées + 5 hors-scope) | **100 %** | la source attendue est dans le top-k (ou refus correct) |
-| `cosine` réponse générée vs annotée | **0,890** | excellente couverture sémantique |
-| `judge_score` (mistral-small, 0-5) | **4,15 / 5** | bonne qualité globale (après filtre anti-bruit) |
+| `cosine` réponse générée vs annotée | **0,893 ± 0,003** | excellente couverture sémantique (stable) |
+| `judge_score` (mistral-small, 0-5) | **4,15 ± 0,18 / 5** | bonne qualité globale (moyenne sur plusieurs runs) |
 | Taux de refus correct sur hors-scope | **100 %** (5/5) | aucune hallucination sur Angers, Vendée, Italie, recette, Marseille |
 
 Ces chiffres sont le résultat d'un cycle de tuning itératif documenté (cf. journal J14-J16) : (1) un premier run a révélé une fuite de connaissance paramétrique (le bot répondait « Rome » à « capitale de l'Italie »), (2) un verrou de périmètre l'a corrigée mais a introduit des faux refus sur des questions thématiques, (3) un verrou chirurgical a équilibré les deux. Enseignement clé : **les métriques agrégées masquent les régressions ; seule l'analyse fine par question les révèle** (le `hit_rate@k` mesure le retriever, le `judge_score` la génération).
 
-> **Limite méthodologique** : les `expected_source_uids` sont annotés à partir des candidats du retriever (pas de ground truth exhaustif sur 2 127 events). Le `hit_rate@k` mesure donc la *cohérence* du top-k plutôt qu'un *recall* absolu. Le cosine et le juge, eux, sont non circulaires.
+> **Limite méthodologique** : les `expected_source_uids` sont annotés à partir des candidats du retriever (pas de ground truth exhaustif). Le `hit_rate@k` mesure donc la *cohérence* du top-k plutôt qu'un *recall* absolu.
+>
+> **Variance des métriques** : le juge LLM n'est pas déterministe (même à température 0, à cause du batching serveur et de l'arithmétique flottante GPU). On reporte donc une **moyenne ± écart-type sur plusieurs runs** (mode `--runs N` du script d'évaluation), pas un chiffre unique. Le cosine est nettement plus stable (±0,003) que le juge (±0,18). hit_rate est déterministe (retriever).
 
 **Imperfections identifiées** (juge < 5) : sur-interprétation temporelle occasionnelle (le LLM ajoute « ce week-end » quand la question ne le demande pas) et pertinence thématique parfois approximative (un débat classé comme « humour »). Pistes : affiner le prompt, re-ranker (cf. §6.2).
 

@@ -16,12 +16,11 @@ import json
 import logging
 import time
 from pathlib import Path
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 import numpy as np
 import pandas as pd
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_mistralai import ChatMistralAI
 from tenacity import (
     before_sleep_log,
     retry,
@@ -31,8 +30,11 @@ from tenacity import (
 )
 
 from pulsevents_rag.config import Settings
-from pulsevents_rag.rag import RagPipeline
-from pulsevents_rag.vectorstore import get_embeddings
+
+# Imports lourds (langchain LLM) charges paresseusement dans evaluate() :
+# permet de tester summarize() sans installer toute la stack.
+if TYPE_CHECKING:
+    from pulsevents_rag.rag import RagPipeline
 
 logger = logging.getLogger(__name__)
 
@@ -119,7 +121,7 @@ def load_qa_dataset(path: Path) -> list[dict]:
 
 
 def evaluate(
-    pipeline: RagPipeline,
+    pipeline: "RagPipeline",
     settings: Settings,
     qa_path: Optional[Path] = None,
 ) -> pd.DataFrame:
@@ -128,6 +130,10 @@ def evaluate(
     Le DataFrame contient une ligne par question avec : reponse generee,
     sources, hit_rate, cosine, score_juge.
     """
+    from langchain_mistralai import ChatMistralAI  # import paresseux (stack lourde)
+
+    from pulsevents_rag.vectorstore import get_embeddings
+
     qa_path = qa_path or settings.resolved_path(settings.paths.eval_dataset)
     dataset = load_qa_dataset(qa_path)
 
@@ -207,12 +213,71 @@ def evaluate(
     df.to_csv(out_path, index=False, encoding="utf-8")
     logger.info("Resultats sauvegardes -> %s", out_path)
 
-    # Resume console
-    summary = {
+    logger.info("Resume : %s", summarize(df))
+    return df
+
+
+def summarize(df: pd.DataFrame) -> dict:
+    """Agrege les 3 metriques d'un DataFrame de resultats (un run)."""
+    return {
         "n_questions": len(df),
         "hit_rate": df["hit"].dropna().mean() if df["hit"].notna().any() else None,
-        "cosine_mean": df["cosine"].dropna().mean() if df["cosine"].notna().any() else None,
-        "judge_mean_5": df["judge_score"].dropna().mean() if df["judge_score"].notna().any() else None,
+        "cosine": df["cosine"].dropna().mean() if df["cosine"].notna().any() else None,
+        "judge": df["judge_score"].dropna().mean() if df["judge_score"].notna().any() else None,
     }
-    logger.info("Resume : %s", summary)
-    return df
+
+
+def evaluate_multi(
+    pipeline: "RagPipeline",
+    settings: Settings,
+    n_runs: int = 3,
+    qa_path: Optional[Path] = None,
+) -> dict:
+    """Lance l'evaluation ``n_runs`` fois et agrege moyenne + ecart-type.
+
+    Utile car le juge LLM (et la generation a T>0) ne sont pas
+    deterministes : un run unique n'est pas representatif. On reporte
+    moyenne ± ecart-type sur plusieurs runs.
+
+    Returns:
+        dict avec, par metrique, mean / std / values.
+    """
+    per_run: list[dict] = []
+    dfs: list[pd.DataFrame] = []
+    for r in range(1, n_runs + 1):
+        logger.info("===== Run %d / %d =====", r, n_runs)
+        df = evaluate(pipeline, settings, qa_path)
+        per_run.append(summarize(df))
+        dfs.append(df)
+
+    # Agregat GLOBAL (moyenne +/- ecart-type sur les runs)
+    agg: dict = {"n_runs": n_runs, "per_run": per_run, "metrics": {}}
+    for key in ("hit_rate", "cosine", "judge"):
+        vals = [run[key] for run in per_run if run[key] is not None]
+        if vals:
+            agg["metrics"][key] = {
+                "mean": float(np.mean(vals)),
+                "std": float(np.std(vals)),
+                "min": float(np.min(vals)),
+                "max": float(np.max(vals)),
+                "values": [round(v, 4) for v in vals],
+            }
+
+    # Agregat PAR QUESTION (moyenne + ecart-type du juge sur les runs)
+    allruns = pd.concat(dfs, ignore_index=True)
+    per_q = (
+        allruns.groupby("id")
+        .agg(
+            question=("question", "first"),
+            out_of_scope=("out_of_scope", "first"),
+            hit=("hit", "mean"),
+            cosine=("cosine", "mean"),
+            judge_mean=("judge_score", "mean"),
+            judge_std=("judge_score", "std"),
+        )
+        .reset_index()
+    )
+    agg["per_question"] = per_q
+
+    logger.info("Resume multi-run : %s", agg["metrics"])
+    return agg

@@ -644,9 +644,9 @@ def slide_evaluation(prs):
                subtitle="Jeu de 20 paires Q/R annotees (14 in-scope + 5 hors-scope + 1 date)")
 
     metrics = [
-        ("100 %", "hit_rate@k\nsource attendue\ndans le top-k", "+ 100% refus hors-scope", Inches(1.4)),
-        ("0,890", "cosine moyenne\nreponse vs annotee\n(mistral-embed)", "excellente couverture", Inches(5.55)),
-        ("4,15/5", "LLM-as-judge\nmistral-small (T=0)\nqualite percue", "tuning + filtre anti-bruit", Inches(9.7)),
+        ("100 %", "hit_rate@k\ndeterministe\n(retriever)", "+ 100% refus hors-scope", Inches(1.4)),
+        ("0,893", "cosine moyen\n+/- 0,003 (stable)\nsur plusieurs runs", "excellente couverture", Inches(5.55)),
+        ("4,15/5", "LLM-as-judge\n+/- 0,18 (variance)\nmoyenne multi-run", "juge non deterministe", Inches(9.7)),
     ]
     for name, desc, target, x in metrics:
         circle = s.shapes.add_shape(MSO_SHAPE.OVAL, x, Inches(1.85),

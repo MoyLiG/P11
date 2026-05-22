@@ -287,7 +287,8 @@ streamlit run app.py
 # ou : python scripts/04_run_streamlit.py
 
 # 4. Évaluation sur le jeu Q/R annoté
-python scripts/05_evaluate.py
+python scripts/05_evaluate.py            # 1 run (détail par question)
+python scripts/05_evaluate.py --runs 3   # 3 runs, moyenne ± écart-type (recommandé)
 ```
 
 ### Reconstruction de la base vectorielle

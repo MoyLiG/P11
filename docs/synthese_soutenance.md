@@ -141,6 +141,16 @@ sur plusieurs runs, pas un chiffre unique. Le cosine est plus stable
 1 849 events). Le hit_rate mesure donc la cohérence du top-k plutôt
 qu'un recall absolu.
 
+**Décomposer retriever vs générateur (cas Q4)** : une seule question
+sous-performe de façon stable — « concerts de musique classique ». En
+lisant le CSV de résultats, j'ai vu que le retriever fournit les 5 bons
+événements (hit=1) mais que `mistral-small` refuse à tort (« pas
+trouvé »). C'est donc une **faute du générateur, pas du retriever** :
+le petit modèle est parfois trop conservateur sur les requêtes
+thématiques pointues. Levier v1 : `mistral-large` ou re-ranker. À dire :
+« le CSV permet de savoir si c'est l'index ou le modèle qui a failli —
+ici l'index est parfait, c'est le modèle. »
+
 ---
 
 ## 6. Le récit du tuning (storytelling fort)

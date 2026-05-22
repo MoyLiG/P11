@@ -110,6 +110,26 @@ les artefacts disque).
 
 ---
 
+## Lecon 17 - Decomposer une mauvaise reponse : retriever ou generateur ?
+
+**Contexte** : Q4 "musique classique" sous-performe (juge 3 stable, cosine
+0.75). En lisant results.csv : le retriever fournit les 5 bons events
+(hit=1) mais le LLM repond "pas trouve" -> faux refus.
+
+**Application** : devant une mauvaise reponse RAG, toujours separer les
+deux causes possibles :
+- faute du RETRIEVER (mauvais contexte) -> verifiable via retrieved_uids ;
+- faute du GENERATEUR (bon contexte, mauvaise reponse) -> comparer
+  contexte et reponse generee.
+Le CSV d'eval (retrieved_uids vs generated) permet ce diagnostic.
+
+**Ici** : retrieval parfait, generation defaillante -> le levier est le
+MODELE (mistral-small trop conservateur sur requetes pointues), pas
+l'index. Ne pas perdre de temps a tuner le retriever quand le probleme
+est ailleurs.
+
+---
+
 ## Lecon 16 - Variance des metriques LLM : moyenner sur plusieurs runs
 
 **Contexte** : 4 runs de la meme eval donnent juge 3,85-4,30 (variable),

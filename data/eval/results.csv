@@ -5,102 +5,99 @@ id,question,expected,generated,expected_uids,retrieved_uids,hit,cosine,judge_sco
 - **Fête du Lait de Mai** : Du 29 au 31 mai au square du Lait de Mai (Nantes).
 
 D'autres événements peuvent exister dans ma base, n'hésitez pas à affiner votre recherche.","14370998, 49841638, 57088940, 59597088, 64083615, 73623257, 95142822","14370998, 29372303, 46871509, 49841638, 57088940, 59597088, 62125618, 64083615, 71824564, 73623257, 95142822, 967824",1.0,0.8669428238297914,5,False
-2,Que faire a Saint-Nazaire ce mois-ci ?,"Citer un ou plusieurs evenements culturels situes a Saint-Nazaire (44600), avec dates et lieu.","Voici des idées pour ce mois-ci à Saint-Nazaire :
+2,Que faire a Saint-Nazaire ce mois-ci ?,"Citer un ou plusieurs evenements culturels situes a Saint-Nazaire (44600), avec dates et lieu.","Voici les événements à Saint-Nazaire ce mois-ci (mai 2026) :
 
-- **Laboratoire portuaire** : Samedi 23 mai à 17h00, à l'Ecomusée de Saint-Nazaire. Découverte du patrimoine portuaire par des élèves, dans le cadre de la Nuit des musées.
-- **Concert Bouskidou Symphonique** : Samedi 23 mai à 18h00, au Théâtre Simone Veil. Un concert familial mêlant rock, humour et orchestre symphonique.
+- **Laboratoire portuaire** : Samedi 23 mai à 17h00, à l'Ecomusée de Saint-Nazaire.
+- **Concert Bouskidou Symphonique** : Samedi 23 mai à 18h00, au Théâtre Simone Veil.
 
-D'autres événements peuvent exister dans ma base, n'hésitez pas à affiner votre recherche.","27745059, 49110318","10273924, 17666090, 21812567, 23196789, 27745059, 49110318, 51871469, 53945991, 64177540, 81629337, 88271348",1.0,0.8703475493734608,5,False
+D'autres événements peuvent exister dans ma base, n'hésitez pas à affiner votre recherche.","27745059, 49110318","10273924, 17666090, 21812567, 23196789, 27745059, 49110318, 51871469, 53945991, 64177540, 81629337, 88271348",1.0,0.8682844316199457,5,False
 3,Y a-t-il des choses a faire a Angers cette semaine ?,Je n'ai pas trouve d'evenement correspondant dans ma base.,Je n'ai pas trouvé d'événement correspondant dans ma base.,,"10273924, 1044444, 14264906, 17122235, 26120087, 28965443, 2937550, 31223047, 33204751, 48826651, 49634195, 95142822",1.0,0.9814906398989405,5,True
-4,Quels concerts de musique classique sont prevus en Pays de la Loire ?,"Citer un ou plusieurs concerts ou recitals de musique classique a venir (orchestre symphonique, orgue, musique de chambre, etc.), avec titre, dates et lieu.",Je n'ai pas trouvé d'evenement correspondant dans ma base.,"28741309, 53166120, 55492215, 61859054, 82212292","14264906, 23868462, 28741309, 29372303, 53166120, 55492215, 61859054, 62125618, 63575006, 82212292",1.0,0.7615456969694794,3,False
+4,Quels concerts de musique classique sont prevus en Pays de la Loire ?,"Citer un ou plusieurs concerts ou recitals de musique classique a venir (orchestre symphonique, orgue, musique de chambre, etc.), avec titre, dates et lieu.",Je n'ai pas trouvé d'événement correspondant dans ma base.,"28741309, 53166120, 55492215, 61859054, 82212292","14264906, 23868462, 28741309, 29372303, 53166120, 55492215, 61859054, 62125618, 63575006, 82212292",1.0,0.7542604844211441,3,False
 5,Quelles expositions d'art contemporain sont visibles en region ?,"Citer une ou plusieurs expositions d'art contemporain a venir ou en cours en Loire-Atlantique (FRAC, galeries, musees...), avec titre, dates et lieu.","Voici les expositions d'art contemporain visibles en région ce mois-ci :
 
-- **Exposition Esquisses vertaviennes : Ombre et Lumière** : du 29 mai au 7 juin à Vertou (L'Atelier).
-- **Le sol bougeait et nous avions l’air de cosmonautes égarés sur une part de pizza** : jusqu'au 30 mai à Nantes (Galerie Mira).
+- **Exposition Esquisses vertaviennes : Ombre et Lumière** : du 29 mai au 7 juin à L'Atelier (Vertou, Loire-Atlantique).
+- **Le sol bougeait et nous avions l’air de cosmonautes égarés sur une part de pizza** : jusqu'au 30 mai à la Galerie Mira (Nantes, Loire-Atlantique).
 
-D'autres événements peuvent exister dans ma base, n'hésitez pas à affiner votre recherche.","2740755, 28003468, 36901429, 495732, 96185159","10732214, 10804828, 19678484, 2740755, 28003468, 29372303, 30643544, 36901429, 43842137, 495732, 96176241, 96185159",1.0,0.867565022025403,3,False
-6,Y a-t-il des spectacles de theatre pour enfants ?,"Citer un ou plusieurs spectacles jeune public (theatre, conte, marionnettes...) a venir, avec titre, dates et lieu, ou indiquer l'absence.","Voici les spectacles de théâtre pour enfants pertinents ce mois-ci :
+D'autres événements peuvent exister dans ma base, n'hésite pas à affiner ta recherche.","2740755, 28003468, 36901429, 495732, 96185159","10732214, 10804828, 19678484, 2740755, 28003468, 29372303, 30643544, 36901429, 43842137, 495732, 96176241, 96185159",1.0,0.8847884418311187,4,False
+6,Y a-t-il des spectacles de theatre pour enfants ?,"Citer un ou plusieurs spectacles jeune public (theatre, conte, marionnettes...) a venir, avec titre, dates et lieu, ou indiquer l'absence.","Voici les spectacles de théâtre pour enfants pertinents dans ma base :
 
-- **« Le spectacle de Dada »** : Concert punk pour enfants (à partir de 5 ans) les dimanches jusqu'au 28 juin au Ferrailleur (Nantes).
-- **« Potionum Inventum »** : Animation interactive sur les sorcières (7-11 ans) jusqu'au 27 juin au Château des ducs de Bretagne (Nantes).
-- **« Le spectacle de Dada »** : Comédie déjantée sur des élèves disparus dans des mondes parallèles (à partir de 8 ans) les 28 et 29 mai à 19h.
+- **« HUMAN’S »** (comédie amère) – Mercredi 27/05 à 14h30 (40 min) – Nantes.
+- **« FUNÉRAILLES NUPTIALES »** (farce onirique) – Vendredi 29/05 à 20h30 (1h30) – Nantes.
+- **« AUSSI DES RONCES »** (performance danse contemporaine) – Samedi 30/05 à 19h30 (30 min) – Nantes.
+- **« INVITATION EN SOUS-BOIS »** (lecture théâtralisée) – Samedi 30/05 à 20h30 (70 min) – Nantes.
+- **« VIVE BOUCHON ! »** (comédie théâtrale) – Mardi 02/06 à 20h (1h40) – Nantes.
 
-D'autres événements peuvent exister dans ma base, n'hésite pas à affiner ta recherche.","12090244, 36670730, 52806553, 5580139, 64083615, 67756026","30911241, 36670730, 39195209, 43280544, 52806553, 5580139, 57742481, 64083615, 67756026, 82561797, 87190059, 92971837",1.0,0.8715536975820117,5,False
+D'autres événements peuvent exister dans ma base, n'hésitez pas à affiner votre recherche.","12090244, 36670730, 52806553, 5580139, 64083615, 67756026","30911241, 36670730, 39195209, 43280544, 52806553, 5580139, 57742481, 64083615, 67756026, 82561797, 87190059, 92971837",1.0,0.8853053181131216,3,False
 7,Recommande-moi un festival de musique cet ete.,"Recommander un festival musical estival a venir en Loire-Atlantique, avec titre, dates et lieu.","Voici un festival de musique cet été dans les Pays de la Loire :
 
-- **M.I.A.M!#6**
-  Quand : 3 - 5 juillet 2026
-  Lieu : Jardin du 38 (Nantes, Loire-Atlantique)
+- **M.I.A.M!#6** : Du 3 au 5 juillet 2026 au Jardin du 38 à Nantes. Un festival gratuit, familial et convivial avec des concerts variés (pop, électro, cirque, magie, etc.) et des animations pour tous.
 
-D'autres événements peuvent exister dans ma base, n'hésite pas à affiner ta recherche.","31632651, 57712492, 63800806, 73230760, 76935241","1527757, 23868462, 28464741, 31274924, 31632651, 57712492, 63800806, 64438415, 65476192, 73230760, 76935241, 81923392",1.0,0.8674093351636427,5,False
-8,Quelles activites en plein air sont proposees ?,"Citer une ou plusieurs activites en plein air a venir (balades, concerts exterieurs, projections, decouvertes), avec titre, dates et lieu.","Voici les activités en plein air proposées ce week-end (23 et 24 mai 2026) :
+D'autres événements peuvent exister dans ma base, n'hésite pas à affiner ta recherche.","31632651, 57712492, 63800806, 73230760, 76935241","1527757, 23868462, 28464741, 31274924, 31632651, 57712492, 63800806, 64438415, 65476192, 73230760, 76935241, 81923392",1.0,0.8690810226196716,5,False
+8,Quelles activites en plein air sont proposees ?,"Citer une ou plusieurs activites en plein air a venir (balades, concerts exterieurs, projections, decouvertes), avec titre, dates et lieu.","Voici les activités en plein air proposées ce week-end et ce mois-ci dans la région nantaise :
 
-- **Grand espace de jeux pour tous** : De 15h à 19h à Grand Lieu.
-- **Initiation à l’escalade** : De 15h à 19h à Grand Lieu.
-- **Rallye nature en famille** : De 11h à 19h à Grand Lieu.
-- **Ciels de Nantes** : Observation du ciel de 15h à 18h au parc du Grand Blottereau (Nantes).
+- **Grand espace de jeux pour tous** : aujourd'hui de 15h à 19h à Grand Lieu (Loire-Atlantique).
+- **Initiation à l’escalade** : aujourd'hui de 15h à 19h à Grand Lieu (Loire-Atlantique).
+- **Rallye nature en famille** : ce week-end de 11h à 19h à Grand Lieu (Loire-Atlantique).
+- **Embarc’rando** : ce week-end à 8h30 (balade de 4h) à Grand Lieu (Loire-Atlantique).
+- **Ciels de Nantes** : samedi 30 mai de 15h à 18h au parc du Grand Blottereau (Nantes).
 
-D'autres événements peuvent exister dans ma base, n'hésitez pas à affiner votre recherche.","23868462, 26719635, 36792078, 50389335, 52782815, 58478465","10732214, 23868462, 26719635, 29372303, 36792078, 44867494, 50389335, 52782815, 58478465, 7056844, 82561763, 84025635",1.0,0.8513248719418325,5,False
-9,Que se passe-t-il ce week-end ?,"Citer un ou plusieurs evenements ayant lieu durant le prochain week-end, ou indiquer qu'aucun n'est trouve pour cette date.","Voici les événements ce week-end (23 et 24 mai 2026) :
+D'autres événements peuvent exister dans ma base, n'hésitez pas à affiner votre recherche.","23868462, 26719635, 36792078, 50389335, 52782815, 58478465","10732214, 23868462, 26719635, 29372303, 36792078, 44867494, 50389335, 52782815, 58478465, 7056844, 82561763, 84025635",1.0,0.8594608329674636,5,False
+9,Que se passe-t-il ce week-end ?,"Citer un ou plusieurs evenements ayant lieu durant le prochain week-end, ou indiquer qu'aucun n'est trouve pour cette date.","Voici les événements prévus **ce week-end** (23 et 24 mai 2026) dans la base :
 
-- **« La Butte se la joue »** : Week-end festif au quartier Sainte-Anne à Nantes avec repas partagé, ateliers créatifs, concerts (Gang des P'tits Trous, Visa 44), bal folk, jam musicale et buvette. Les 30 et 31 mai.
+- **« La Butte se la joue »** : Week-end festif et convivial dans le quartier Sainte-Anne à Nantes, avec repas partagé, ateliers créatifs, concerts (Gang des P'tits Trous, Visa 44), bal folk, jam musicale et buvette. **Du 30 au 31 mai 2026** (donc inclus ce week-end).
 
-D'autres événements peuvent exister dans ma base, n'hésitez pas à affiner votre recherche.",,"10273924, 17122235, 21812567, 29154949, 36901429, 50410078, 64177540, 7939689, 84025635, 84660110, 89488265",,0.8471084870538083,3,False
+D'autres événements peuvent exister dans ma base, n'hésitez pas à affiner votre recherche.",,"10273924, 17122235, 21812567, 29154949, 36901429, 50410078, 64177540, 7939689, 84025635, 84660110, 89488265",,0.8518590161830552,5,False
 10,Quels evenements sont prevus en juillet 2026 ?,Citer des evenements ayant lieu en juillet 2026 (s'il y en a) ou indiquer l'absence.,"Voici les événements prévus en juillet 2026 dans la base :
 
-- **Summer Camp Bask'Event - Juillet** : Lundi 6 juillet 2026, à Nantes (Gymnase La Similienne).
-- **Exposition photo du Collectif Nues** : Du 4 juin au 10 juillet 2026, à Nantes (Mostra Galerie).
-- **Stages de dessin et d'arts plastiques pour ados / l'été 2026** : Du 29 juin au 30 juillet 2026, à Nantes (Atelier O Pigmentée).
+- **Summer Camp Bask'Event - Juillet** : Lundi 6 juillet 2026, Gymnase La Similienne (Nantes, Loire-Atlantique).
+- **Exposition photo du Collectif Nues** : Du 4 juin au 10 juillet 2026, Mostra Galerie (Nantes, Loire-Atlantique).
+- **Stages de dessin et d'arts plastiques pour ados / l'été 2026** : Du 29 juin au 30 juillet 2026, Atelier O Pigmentée (Nantes, Loire-Atlantique).
 
-D'autres événements peuvent exister dans ma base, n'hésite pas à affiner ta recherche.","1263401, 29470669, 62205175","1263401, 25294542, 29154949, 29372303, 29470669, 37490901, 40433517, 46871509, 62125618, 62205175, 84025635, 89445981",1.0,0.8868785371071466,3,False
-11,Connais-tu des evenements en presqu'ile guerandaise ?,"Citer des evenements a Guerande, Le Pouliguen, La Baule, Le Croisic ou autour.","Voici un événement pertinent pour toi dans la presqu'île guérandaise :
+D'autres événements peuvent exister dans ma base, n'hésite pas à affiner ta recherche.","1263401, 29470669, 62205175","1263401, 25294542, 29154949, 29372303, 29470669, 37490901, 40433517, 46871509, 62125618, 62205175, 84025635, 89445981",1.0,0.8863495239516789,3,False
+11,Connais-tu des evenements en presqu'ile guerandaise ?,"Citer des evenements a Guerande, Le Pouliguen, La Baule, Le Croisic ou autour.","Voici un événement pertinent pour toi :
 
 - **Terre de Sel - Le sel de Guérande**
-  *Dates* : 5 - 7 juin 2026
+  *Quand* : 5 - 7 juin 2026
   *Lieu* : Terre de sel - Le sel de Guérande (Guérande, Loire-Atlantique)
 
-D'autres événements peuvent exister dans ma base, n'hésite pas à affiner ta recherche.","47528306, 78100415, 88743799","10273924, 21428398, 29372303, 45859401, 47528306, 55184257, 58727213, 62125618, 69678914, 78100415, 84523876, 88743799",1.0,0.8414278912993649,3,False
+D'autres événements peuvent exister dans ma base, n'hésite pas à affiner ta recherche.","47528306, 78100415, 88743799","10273924, 21428398, 29372303, 45859401, 47528306, 55184257, 58727213, 62125618, 69678914, 78100415, 84523876, 88743799",1.0,0.8336873514811728,3,False
 12,Quels evenements ont lieu en Vendee ?,Je n'ai pas trouve d'evenement correspondant dans ma base.,Je n'ai pas trouvé d'evenement correspondant dans ma base.,,"10273924, 20056273, 29372303, 35650669, 46871509, 55184257, 62125618, 71824564, 79384885, 84025635, 95142822, 967824",1.0,0.9949976505185893,5,True
 13,Quels spectacles d'humour ou one-man-show sont programmes ?,"Citer un ou plusieurs spectacles d'humour / one-man-show a venir, avec titre, dates et lieu, ou indiquer l'absence.","Voici les spectacles d'humour ou one-man-show programmés dans les prochains jours en Loire-Atlantique :
 
-- **""One avocat show""** avec Sébastien Wust, vendredi 22 mai 2026 à 20h00, à Nantes (Lieu non précisé dans la base).
-- **""Quelle place pour les gros ?""** (débat humoristique et engagé), jeudi 21 mai 2026 à 20h00, à Saint-Herblain (Maison des Arts).
-- **""Festival Les Cosmopolites""** (incluant des spectacles variés dont de l'humour), du 18 au 24 mai 2026, à Nantes (Mixt et Lieu Unique).
+- **One avocat show** avec Sébastien Wust : ce vendredi 22 mai 2026 à 20h00, à la Maison des Arts (Saint-Herblain).
+- **Festival Les Cosmopolites** : jusqu'au dimanche 24 mai 2026, avec plusieurs spectacles d'humour et performances à Mixt (Nantes).
 
-D'autres événements peuvent exister dans ma base, n'hésitez pas à affiner votre recherche.","21871532, 30911241, 86053156, 88900849","21871532, 29372303, 30911241, 46871509, 62125618, 631099, 64083615, 82561797, 86053156, 87190059, 88900849, 97983903",1.0,0.8736738665865658,4,False
+D'autres événements peuvent exister dans ma base, n'hésitez pas à affiner votre recherche.","21871532, 30911241, 86053156, 88900849","21871532, 29372303, 30911241, 46871509, 62125618, 631099, 64083615, 82561797, 86053156, 87190059, 88900849, 97983903",1.0,0.8741369711142708,4,False
 14,Y a-t-il des festivals prevus cet ete en Loire-Atlantique ?,"Citer un ou plusieurs festivals (musique, arts de rue, patrimoine...) programmes durant l'ete a venir en Loire-Atlantique, avec dates et lieu.","Voici les festivals prévus cet été en Loire-Atlantique :
 
 - **Festival l'Été continue** : du 25 au 30 août à Carquefou (Parc du Charbonneau). Un festival familial avec animations ludiques, artistiques et sportives, entièrement gratuit.
 
-D'autres événements peuvent exister dans ma base, n'hésitez pas à affiner votre recherche.","31632651, 57712492, 61079405, 7056844","14264906, 19678484, 23196789, 26719635, 31632651, 47815333, 51857946, 55184257, 57712492, 61079405, 87419130, 92637378",1.0,0.8976178655084889,4,False
-15,Quelle est la capitale de l'Italie ?,Je n'ai pas trouve d'evenement correspondant dans ma base.,Je n'ai pas trouvé d'evenement correspondant dans ma base.,,"10273924, 11131331, 13189047, 29372303, 62125618, 66382820, 67231034, 85768354, 88087741, 88842167, 92895345, 95904348",1.0,0.9949976505185893,5,True
+D'autres événements peuvent exister dans ma base, n'hésitez pas à affiner votre recherche.","31632651, 57712492, 61079405, 7056844","14264906, 19678484, 23196789, 26719635, 31632651, 47815333, 51857946, 55184257, 57712492, 61079405, 87419130, 92637378",1.0,0.8976178655084889,3,False
+15,Quelle est la capitale de l'Italie ?,Je n'ai pas trouve d'evenement correspondant dans ma base.,Je n'ai pas trouvé d'événement correspondant dans ma base.,,"10273924, 11131331, 13189047, 29372303, 62125618, 66382820, 67231034, 85768354, 88087741, 88842167, 92895345, 95904348",1.0,0.9814906398989405,5,True
 16,Donne-moi la recette des galettes bretonnes.,Je n'ai pas trouve d'evenement correspondant dans ma base.,Je n'ai pas trouvé d'evenement correspondant dans ma base.,,"23196789, 27686627, 2948196, 40433517, 45445703, 57077654, 63800806, 81923392, 84653425, 92542045, 96251541",1.0,0.9949976505185893,5,True
 17,Quels evenements ont lieu a Marseille ?,Je n'ai pas trouve d'evenement correspondant dans ma base.,Je n'ai pas trouvé d'evenement correspondant dans ma base.,,"23868462, 29154949, 29372303, 46871509, 50939754, 52357135, 55184257, 62125618, 71824564, 94988871, 967824, 97610128",1.0,0.9949976505185893,5,True
-18,Y a-t-il des conferences scientifiques ou des colloques ?,"Citer une ou plusieurs conferences / colloques a venir, avec titre, dates et lieu, ou indiquer l'absence.","Voici les conférences ou colloques pertinents ce week-end ou ce mois-ci dans la base :
+18,Y a-t-il des conferences scientifiques ou des colloques ?,"Citer une ou plusieurs conferences / colloques a venir, avec titre, dates et lieu, ou indiquer l'absence.","Voici les événements pertinents pour ta recherche :
 
 - **Conférence : « Visages d'ancêtres ""Retour à l'île Maurice de la collection Froberville"" »**
-  Quand : Samedi 23 mai à 17h00
-  Lieu : Pôle associatif Désiré Colombe (Nantes)
+  *Samedi 23 mai 2026* – Pôle associatif Désiré Colombe (Nantes)
 
 - **La tournée du climat et de la biodiversité fait escale à Nantes**
-  Quand : Du 21 mai au 11 juin (visites guidées les 21 et 22 mai)
-  Lieu : Hôtel du Département (Nantes)
+  *Exposition et visites guidées du 21 mai au 11 juin 2026* – Hôtel du Département (Nantes)
 
-- **« Quelle place pour les gros ? »** (débat scientifique)
-  Quand : Jeudi 21 mai à 20h00
-  Lieu : Maison des Arts (Saint-Herblain)
+- **« Quelle place pour les gros ? »**
+  *Jeudi 21 mai 2026* – Maison des Arts (Saint-Herblain)
 
-D'autres événements peuvent exister dans ma base, n'hésitez pas à affiner votre recherche.","14644372, 19255299, 96210032","14264906, 14644372, 14963627, 19255299, 29372303, 29647125, 30911241, 62125618, 64432268, 69678914, 88615882, 96210032",1.0,0.8585431923919528,5,False
-19,Quels evenements gratuits puis-je trouver ?,"Citer des evenements gratuits si la base le precise, sinon indiquer l'absence d'info tarifaire.","Voici les événements gratuits pertinents pour ce week-end (23 et 24 mai 2026) :
+D'autres événements peuvent exister dans ma base, n'hésite pas à affiner ta recherche.","14644372, 19255299, 96210032","14264906, 14644372, 14963627, 19255299, 29372303, 29647125, 30911241, 62125618, 64432268, 69678914, 88615882, 96210032",1.0,0.8325336853765215,3,False
+19,Quels evenements gratuits puis-je trouver ?,"Citer des evenements gratuits si la base le precise, sinon indiquer l'absence d'info tarifaire.","Voici les événements gratuits pertinents pour ce week-end ou ce mois-ci :
 
-- **Festival familial** : Dimanche 24 mai, de 14h à 18h, à Indre (Loire-Atlantique). Ateliers jeux, cirque, éveil musical, jeu de rôle et spectacle ""Quand je pense que la vie"" (tout public).
-- **Lecture publique** : Dimanche 24 mai à 17h, à Rezé (Loire-Atlantique). Lecture du *Journal d’un otage français* suivie d’un échange (gratuit et tout public).
-- **1er dimanche du mois** : Dimanche 24 mai, entrée gratuite au **musée Jules Verne** à Nantes (Loire-Atlantique).
+- **Festival familial** : Dimanche 24 mai, de 14h à 18h à Rezé (Loire-Atlantique). Ateliers jeux, cirque, éveil musical, jeu de rôle et spectacle tout public.
+- **1er dimanche du mois : entrée gratuite au musée Jules Verne** : Dimanche 24 mai (Nantes, Loire-Atlantique). Accès gratuit à ce musée.
+- **Lecture publique – Journal d’un otage français** : Dimanche 24 mai à 17h à Châteaubriant (Loire-Atlantique). Lecture suivie d’un échange, gratuit et tout public.
 
-D'autres événements gratuits peuvent exister dans ma base, n'hésitez pas à affiner votre recherche.","82089009, 88087741, 95142822","10273924, 29372303, 46871509, 52357135, 62125618, 65787337, 65801250, 73035168, 75109039, 82089009, 88087741, 95142822",1.0,0.8600007568953032,5,False
+D'autres événements peuvent exister dans ma base, n'hésitez pas à affiner votre recherche.","82089009, 88087741, 95142822","10273924, 29372303, 46871509, 52357135, 62125618, 65787337, 65801250, 73035168, 75109039, 82089009, 88087741, 95142822",1.0,0.8684446129135359,5,False
 20,Quels concerts de rock ou de musiques actuelles sont prevus ?,"Citer un ou plusieurs concerts de rock / musiques actuelles a venir (salles type Stereolux, Trempo, Zenith...), avec titre, dates et lieu.","Voici les concerts de rock ou musiques actuelles prévus dans ma base :
 
-- **Musiques actuelles à Trempo** : Mardi 23 juin 2026, à La Fabrique Ile de Nantes - Trempo (Nantes).
-- **Ateliers en scène à Trempo'** : 12 mai et 4 juin 2026, à La Fabrique Ile de Nantes - Trempo (Nantes).
+- **Musiques actuelles à Trempo** : Mardi 23 juin 2026 à 20h00, La Fabrique Ile de Nantes - Trempo (Nantes, Loire-Atlantique).
+- **Ateliers en scène à Trempo'** : 12 mai et 4 juin 2026, La Fabrique Ile de Nantes - Trempo (Nantes, Loire-Atlantique).
 
-D'autres événements peuvent exister dans ma base, n'hésite pas à affiner ta recherche.","11514143, 52548327, 79076441, 98565883","11514143, 23868462, 29372303, 39320726, 46871509, 52548327, 62125618, 6383878, 79076441, 79170437, 98565883",1.0,0.8843631372639882,3,False
+D'autres événements peuvent exister dans ma base, n'hésite pas à affiner ta recherche.","11514143, 52548327, 79076441, 98565883","11514143, 23868462, 29372303, 39320726, 46871509, 52548327, 62125618, 6383878, 79076441, 79170437, 98565883",1.0,0.8850053792751076,4,False

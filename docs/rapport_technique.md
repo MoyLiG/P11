@@ -154,7 +154,7 @@ Ces chiffres sont le résultat d'un cycle de tuning itératif documenté (cf. jo
 >
 > **Variance des métriques** : le juge LLM n'est pas déterministe (même à température 0, à cause du batching serveur et de l'arithmétique flottante GPU). On reporte donc une **moyenne ± écart-type sur plusieurs runs** (mode `--runs N` du script d'évaluation), pas un chiffre unique. Le cosine est nettement plus stable (±0,003) que le juge (±0,18). hit_rate est déterministe (retriever).
 
-**Imperfections identifiées** (juge < 5) : sur-interprétation temporelle occasionnelle (le LLM ajoute « ce week-end » quand la question ne le demande pas) et pertinence thématique parfois approximative (un débat classé comme « humour »). Pistes : affiner le prompt, re-ranker (cf. §6.2).
+**Imperfections identifiées** (juge < 5) : sur-interprétation temporelle occasionnelle (le LLM ajoute « ce week-end » quand la question ne le demande pas), pertinence thématique parfois approximative (un débat classé comme « humour »), et un **faux refus reproductible sur Q4** (« concerts de musique classique ») — diagnostiqué via le CSV : le retriever fournit les 5 bons événements (hit=1) mais `mistral-small` refuse à tort. C'est une limite du petit modèle sur les requêtes thématiques pointues (cf. §6.1). Pistes : affiner le prompt, re-ranker, ou modèle plus large (cf. §6.2).
 
 **Finding qualité de données + correctif** : Open Agenda Loire-Atlantique agrège des contributeurs hétérogènes ; ~30-50 % des candidats sur certaines requêtes étaient des événements **emploi/formation/administratif** (France Travail « job dating », ateliers LinkedIn, « comment choisir ma mutuelle »...) qui polluaient le retrieval. Un filtre `filter_noise()` a été ajouté à l'ingestion : exclusion par mots-clés de titre et par contributeur d'origine (`originagenda_title`), listes configurables dans `config.yaml`. Ce nettoyage améliore la pertinence du contexte fourni au LLM (cf. journal J17 pour l'avant/après mesuré).
 
@@ -166,6 +166,7 @@ Ces chiffres sont le résultat d'un cycle de tuning itératif documenté (cf. jo
 |---|---|---|
 | Filtre `firstdate_begin` only | un événement long démarré il y a > 1 an mais en cours est exclu | basculer sur `lastdate_end >= today - 365j` |
 | `IndexFlatL2` ne scale pas | latence linéaire en N | passer à IVFFlat / IVFPQ au-delà de 100k chunks |
+| `mistral-small` parfois trop conservateur | faux refus sur requêtes thématiques pointues malgré un bon retrieval (ex. « musique classique », Q4) | `mistral-large` ou re-ranker pour resserrer le contexte |
 | Pas de re-ranking | top-k parfois bruyant | ajouter un re-ranker (BGE, Cohere) entre retriever et LLM |
 | Pas de monitoring | dérive non détectée | LangSmith ou Phoenix (Arize) en production |
 | Coût LLM linéaire en requêtes | risque de scale-up | cache sémantique (GPTCache), fallback FAQ |

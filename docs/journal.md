@@ -792,6 +792,49 @@ moyenne ± écart-type, jamais un run unique. En production, c'est
 essentiel pour distinguer une vraie dérive d'une simple variance de
 mesure (sinon fausses alertes).
 
+## J20 — Faux refus résiduel sur Q4 (limite de mistral-small)
+
+### Investigation
+
+Q4 « concerts de musique classique » sous-performe de façon **stable**
+(juge 3,0 ± 0,0 ; cosine 0,75, le plus bas du jeu). Lecture du
+`results.csv` :
+
+- **Retriever** : les 5 uids attendus (28741309, 53166120, 55492215,
+  61859054, 82212292) sont **tous** dans le top-k → hit = 1.
+- **Contexte fourni au LLM** : contient bien des concerts classiques
+  (Symphonique des Bords de Loire, Pause-concert ONPL, Mercredis
+  Musicaux, Concerts d'orgue).
+- **Réponse générée** : « Je n'ai pas trouvé d'événement correspondant
+  dans ma base. » → **faux refus**.
+
+### Diagnostic
+
+Le retriever est parfait, c'est le **générateur** qui refuse à tort, de
+façon reproductible. `mistral-small` est un petit modèle parfois trop
+conservateur sur une requête au vocabulaire « savant » (« musique
+classique ») noyée dans un contexte qui contient du bruit résiduel — il
+préfère refuser que s'engager. Le prompt mentionne pourtant explicitement
+« musique classique » comme thème à traiter : l'instruction ne suffit pas
+à compenser la limite du modèle.
+
+### Décision : documenter (pas de nouveau tuning)
+
+On ne relance pas un cycle d'ajustement de prompt sur un seul cas (risque
+de re-fragiliser le refus hors-scope). C'est une **limite assumée du
+modèle au stade POC**.
+
+Reco v1 : `mistral-large` (recadre mieux les requêtes thématiques) ou un
+re-ranker pour resserrer le contexte avant la génération.
+
+### Lecon
+
+Toujours **décomposer une mauvaise réponse** : faute du retriever (mauvais
+contexte) ou faute du générateur (bon contexte, mauvaise réponse) ? Le CSV
+d'évaluation (colonnes `retrieved_uids` vs `generated`) permet ce
+diagnostic. Ici : retrieval parfait, génération défaillante → le levier
+est le modèle, pas l'index.
+
 ## Bilan d'apprentissage
 
 1. **La distinction Le Chat / API Mistral n'est pas évidente** pour un

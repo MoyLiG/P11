@@ -672,9 +672,12 @@ def slide_evaluation(prs):
               target, fill=CARD, border=INDIGO, text_color=INDIGO_700,
               text_size=12, bold=True)
 
-    _add_text(s, Inches(0.6), Inches(6.5), Inches(12.2), Inches(0.4),
-              "Sortie : data/eval/results.csv  +  resume console   -   scripts/05_evaluate.py",
+    _add_text(s, Inches(0.6), Inches(6.15), Inches(12.2), Inches(0.35),
+              "Critere consigne : reponse = meme sens + memes infos que l'annotation -> couvert par cosine + juge",
               size=11, color=MUTED, align=PP_ALIGN.CENTER, italic=True)
+    _add_text(s, Inches(0.6), Inches(6.55), Inches(12.2), Inches(0.35),
+              "RAGAS ecarte au POC (depend de openai + langchain_openai, hors stack Mistral) -> garde en reco v1",
+              size=11, color=AMBER, align=PP_ALIGN.CENTER, italic=True)
 
 
 def slide_resultats(prs):

@@ -123,6 +123,24 @@ Bénéfice direct : un évaluateur lance la démo avec
 `docker compose run --rm rag python scripts/pipeline.py` puis
 `docker compose up rag` — aucune installation Python locale requise.
 
+**Aide-mémoire des commandes Docker** :
+
+| Commande | Rôle |
+|---|---|
+| `docker compose build` | Construit l'image (après modif de code) |
+| `docker compose run --rm rag python scripts/pipeline.py` | fetch + tests + index (jetable) |
+| `docker compose run --rm -it rag python scripts/03_run_chatbot_cli.py` | CLI interactif (`-it`) |
+| `docker compose run --rm rag python scripts/05_evaluate.py --runs 3` | évaluation multi-run |
+| `docker compose up rag` | démo Streamlit (port 8501) |
+| `docker compose stop` / `start` | arrête / redémarre (conserve le container) |
+| `docker compose down [--rmi local]` | supprime container (+ image) |
+| `docker compose ps` | liste les containers |
+
+**Persistance** : `./data/` est un *bind mount* (dossier du disque hôte) —
+l'index FAISS et le cache survivent à `stop`/`start`/`down`. Seul l'état
+mémoire Streamlit (session, historique) est éphémère ; l'index est
+rechargé depuis le disque au redémarrage, sans ré-indexation.
+
 ## Étape 4 — Squelette du projet
 
 Plutôt que de jeter tout le code dans un seul script, on adopte une
@@ -273,7 +291,19 @@ quand on connaîtra les `uid` réellement présents.
 | `cosine` | similarité entre embeddings (mistral-embed) de la réponse générée et de la réponse annotée |
 | `judge_score` | un appel mistral-small (T=0) note 0-5 la couverture |
 
-Sortie : `data/eval/results.csv` + résumé console.
+Sortie : `data/eval/results.csv` + résumé console. Mode multi-run
+(`--runs N`) pour gérer la variance du juge LLM (moyenne ± écart-type).
+
+**Pourquoi pas RAGAS ?** RAGAS est le framework standard d'évaluation
+RAG (faithfulness, answer relevancy, context precision/recall). Mais les
+consignes demandent de comparer la réponse à l'annotation (même sens +
+mêmes informations) — couvert par cosine + juge. Et vérification PyPI
+faite : RAGAS dépend de `openai` + `langchain_openai` + `datasets`
+HuggingFace, ce qui importerait l'écosystème d'un concurrent dans un POC
+100 % Mistral, pour des métriques hors-périmètre. Choix : éval maison au
+POC, RAGAS en reco v1. À noter qu'on a réalisé « l'esprit RAGAS »
+manuellement (faithfulness ≈ verrou de périmètre, context precision ≈
+filtre anti-bruit).
 
 ## Étape 10 — Documentation
 

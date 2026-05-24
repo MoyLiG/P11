@@ -835,6 +835,42 @@ d'évaluation (colonnes `retrieved_uids` vs `generated`) permet ce
 diagnostic. Ici : retrieval parfait, génération défaillante → le levier
 est le modèle, pas l'index.
 
+## J21 — Choix de ne pas utiliser RAGAS (vérifié sur PyPI)
+
+RAGAS est le framework standard d'évaluation RAG (métriques *faithfulness*,
+*answer relevancy*, *context precision*, *context recall*). Faut-il l'adopter ?
+
+**Ce que demandent les consignes** (lignes 72 et 218) : un jeu Q/R annoté,
+et mesurer la qualité « par rapport aux réponses annotées » — une réponse
+est correcte si elle a « le même sens et contient les mêmes informations
+que la réponse annotée ». C'est **exactement** ce que mesurent nos
+métriques maison : **cosine** (même sens) + **LLM-as-judge** (mêmes
+informations). RAGAS n'est pas mentionné dans les consignes.
+
+**Vérification PyPI (ragas 0.4.3)** — dépendances directes :
+`langchain`, `langchain-core`, `langchain-community`, **`langchain_openai`**,
+**`openai>=1.0.0`**, **`datasets>=4.0.0`**, `instructor`, `networkx`,
+`scikit-network`, `pillow`, `tiktoken`, `diskcache`, `typer`, `rich`...
+(~19 deps directes).
+
+**Décision : ne PAS adopter RAGAS au stade POC**, car :
+1. Il tire l'**écosystème OpenAI** (`openai` + `langchain_openai`) —
+   incohérent avec un projet 100 % Mistral (on installerait le client
+   d'un concurrent pour rien).
+2. `datasets` HuggingFace ajoute ~150-200 Mo à l'image Docker.
+3. Ses métriques (faithfulness, context precision) sont **hors du
+   périmètre demandé** par les consignes.
+
+**Nuance honnête** : le conflit de versions langchain n'est PAS certain
+(RAGAS ne pin pas strictement langchain). L'argument décisif est la
+cohérence de stack (Mistral pur) + le hors-périmètre, pas un conflit.
+
+**Constat** : on a fait « l'esprit RAGAS » à la main — *faithfulness* ≈
+notre verrou de périmètre (anti-hallucination, cas Q15), *context
+precision* ≈ notre filtre anti-bruit (cas des 13 % de bruit). RAGAS est
+gardé en **reco v1** pour l'industrialisation (CI nocturne, métriques
+standardisées).
+
 ## Bilan d'apprentissage
 
 1. **La distinction Le Chat / API Mistral n'est pas évidente** pour un

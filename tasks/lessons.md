@@ -110,6 +110,32 @@ les artefacts disque).
 
 ---
 
+## Lecon 18 - Choisir ses dependances selon le perimetre ET la coherence de stack
+
+**Contexte** : RAGAS (framework standard d'eval RAG) vu en cours. Faut-il
+l'adopter ? Verification PyPI (ragas 0.4.3) : depend directement de
+`openai`, `langchain_openai`, `datasets` (HuggingFace, ~150-200 Mo).
+
+**Decision** : ne pas l'adopter au POC. Raisons :
+1. Les consignes demandent "reponse vs annotation" (sens + infos) -> deja
+   couvert par cosine + juge maison.
+2. RAGAS importe l'ecosysteme OpenAI dans un projet 100% Mistral -> stack
+   incoherente.
+3. Ses metriques (faithfulness, context precision) sont hors-perimetre.
+
+**Lecon** : avant d'ajouter une dependance, verifier (a) si elle repond a
+un besoin REEL du cahier des charges, (b) sa coherence avec la stack
+existante (ne pas tirer l'ecosysteme d'un concurrent), (c) son cout reel
+(deps transitives via `pip show` / PyPI). Toujours verifier les FAITS
+(PyPI) plutot que de supposer.
+
+**Honnetete** : j'avais d'abord invoque un "conflit de versions langchain"
+- verification faite, ce conflit n'est PAS certain (pas de pin strict).
+Le vrai argument est la coherence de stack + le hors-perimetre. Corriger
+une affirmation non verifiee fait partie de la rigueur.
+
+---
+
 ## Lecon 17 - Decomposer une mauvaise reponse : retriever ou generateur ?
 
 **Contexte** : Q4 "musique classique" sous-performe (juge 3 stable, cosine

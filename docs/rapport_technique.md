@@ -178,7 +178,7 @@ Ces chiffres sont le résultat d'un cycle de tuning itératif documenté (cf. jo
 2. **Re-ranker dédié** — un modèle léger comme `bge-reranker-v2-m3` après le retriever réduit fortement le bruit. Latence +200 ms, qualité +10 à +20 % sur le judge_score.
 3. **Modèle plus large pour la génération** — `mistral-large-latest` ou `mistral-medium`. Surcoût ~6×, mais meilleure formulation et capacité de raisonnement.
 4. **Indexation incrémentale** — Open Agenda met à jour quotidiennement. Stocker le `updatedat` de chaque événement, ne ré-embedder que les nouveaux et modifiés.
-5. **Évaluation automatisée RAGAS** — faithfulness, answer relevance, context precision/recall. Intégrable dans une CI nocturne pour détecter les régressions.
+5. **Évaluation automatisée RAGAS (reco v1, écartée au POC)** — RAGAS est le framework standard d'évaluation RAG (faithfulness, answer relevancy, context precision/recall). Il **n'a pas été adopté au stade POC**, pour trois raisons : (a) les consignes demandent de mesurer la qualité « par rapport aux réponses annotées » (même sens + mêmes informations) — ce que couvrent déjà nos métriques maison cosine + LLM-as-judge ; (b) vérification sur PyPI (ragas 0.4.3) : il dépend directement de `openai` et `langchain_openai`, incohérent avec un projet 100 % Mistral, et tire `datasets` HuggingFace (~150-200 Mo) ; (c) ses métriques (faithfulness, context precision) sont hors du périmètre demandé. Intéressant : nous avons réalisé « l'esprit RAGAS » manuellement — la *faithfulness* correspond à notre verrou de périmètre anti-hallucination, la *context precision* à notre filtre anti-bruit. RAGAS reste pertinent en v1 pour industrialiser l'évaluation en CI nocturne (en le branchant explicitement sur `ChatMistralAI` + `mistral-embed`).
 6. **Monitoring de drift** — surveiller la distribution des questions reçues et la pertinence du top-1 source. Alerte si le pourcentage de « pas trouvé » dépasse un seuil.
 7. **KPI produit** — taux de clic sur les sources affichées (le user clique-t-il sur l'événement recommandé ?), temps moyen avant refus utilisateur, satisfaction (thumbs up/down).
 
@@ -188,8 +188,8 @@ Le POC démontre :
 
 1. Que la stack imposée (LangChain + Mistral + FAISS) est parfaitement adaptée au cas d'usage Puls-Events.
 2. Que le pipeline est entièrement reproductible (un script reconstruit l'index à la demande, conformément aux consignes).
-3. Que la qualité des réponses est suffisante pour justifier un investissement en v1, sous réserve d'ajouter re-ranking, hybrid search et observabilité.
-4. Que les coûts opérationnels sont maîtrisables (~0,30 € par construction d'index, ~1 centime par requête utilisateur).
+3. Que la qualité des réponses est suffisante pour justifier un investissement en v1, sous réserve d'ajouter re-ranking, historique et observabilité.
+4. Que les coûts opérationnels sont maîtrisables (~0,13 € par construction d'index, ~0,001 € par requête utilisateur).
 
 Les recommandations §6 dessinent une roadmap cohérente sur 6 à 12 semaines pour passer du POC à une v1 industrielle.
 
@@ -198,6 +198,21 @@ Les recommandations §6 dessinent une roadmap cohérente sur 6 à 12 semaines po
 **Annexes**
 
 - Fichiers de code : `src/pulsevents_rag/*.py`, `app.py`, `scripts/*.py`.
-- Tests unitaires : `tests/test_data_*.py`, `tests/test_preprocessing.py`, `tests/test_vectorstore.py`.
+- Tests unitaires : `tests/test_data_*.py`, `tests/test_preprocessing.py`, `tests/test_vectorstore.py`, `tests/test_retriever.py`.
 - Jeu Q/R annoté : `data/eval/qa_dataset.json` (20 paires).
 - Configuration : `config.yaml` (paramètres centralisés).
+
+**Annexe — commandes Docker (aide-mémoire)**
+
+| Commande | Rôle |
+|---|---|
+| `docker compose build` | Construit l'image (après modification du code) |
+| `docker compose run --rm rag python scripts/pipeline.py` | Tâche ponctuelle : fetch + tests + index (container jetable) |
+| `docker compose run --rm -it rag python scripts/03_run_chatbot_cli.py` | CLI interactif (`-it` requis) |
+| `docker compose run --rm rag python scripts/05_evaluate.py --runs 3` | Évaluation multi-run |
+| `docker compose up rag` | Démarre Streamlit (service, port 8501) |
+| `docker compose stop` / `start` | Arrête / redémarre le container (le conserve) |
+| `docker compose down [--rmi local]` | Supprime container + réseau (et image avec `--rmi local`) |
+| `docker compose ps` | Liste les containers du projet |
+
+**Persistance** : le dossier `./data/` (index FAISS, cache embeddings, dump, résultats d'évaluation) est monté en *bind mount* depuis le disque hôte. Il survit à `stop`, `start` et `down` — seule la mémoire du process Streamlit (session, historique affiché) est éphémère. Au redémarrage, l'index est rechargé depuis le disque sans ré-indexation.

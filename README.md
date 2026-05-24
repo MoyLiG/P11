@@ -211,6 +211,39 @@ docker compose run --rm rag pytest tests/test_data_freshness.py \
                                    tests/test_preprocessing.py -v
 ```
 
+#### Commandes Docker — aide-mémoire
+
+| Commande | Rôle |
+|---|---|
+| `docker compose build` | Construit l'image (après modification du code) |
+| `docker compose build --no-cache` | Rebuild complet (ignore le cache de couches) |
+| `docker compose run --rm rag python scripts/pipeline.py` | Tâche ponctuelle : fetch + tests + index (container jetable) |
+| `docker compose run --rm -it rag python scripts/03_run_chatbot_cli.py` | CLI interactif (`-it` requis) |
+| `docker compose run --rm rag python scripts/05_evaluate.py --runs 3` | Évaluation multi-run |
+| `docker compose up rag` | Démarre Streamlit (service, port 8501) |
+| `docker compose stop` / `start` | Arrête / redémarre le container (le conserve) |
+| `docker compose down` | Arrête **et supprime** container + réseau |
+| `docker compose down --rmi local` | + supprime aussi l'image |
+| `docker compose ps` | Liste les containers du projet |
+
+#### Persistance : qu'est-ce qui survit aux arrêts ?
+
+| Élément | `stop`→`start` | `down` | `down --rmi` |
+|---|---|---|---|
+| `./data/` (index FAISS, cache, dump, résultats) | ✅ | ✅ | ✅ |
+| Filesystem interne du container | ✅ | ❌ | ❌ |
+| État mémoire (session Streamlit, historique, compteur) | ❌ | ❌ | ❌ |
+| Image `pulsevents-rag:latest` | ✅ | ✅ | ❌ |
+
+**Pourquoi `./data/` survit à tout** : c'est un **bind mount** (dossier du
+disque hôte branché dans le container, cf. `docker-compose.yml`). L'index
+FAISS et le cache d'embeddings vivent sur ta machine, pas dans Docker —
+donc même `docker compose down` ne les supprime pas. Au redémarrage,
+Streamlit recharge l'index depuis `./data/vectorstore` (instantané, pas de
+ré-indexation). Le seul état réellement perdu à chaque arrêt est la session
+Streamlit en mémoire (historique de chat affiché, compteur de requêtes) —
+ce qui est attendu, le POC étant volontairement stateless.
+
 ### Option C — Windows / PowerShell natif
 
 Fonctionne mais demande quelques précautions (wheels `faiss-cpu`
@@ -401,6 +434,16 @@ Les requêtes RAG (LLM small) sont de l'ordre du centime chacune.
 **L'historique de conversation est-il géré ?**
 Non. La consigne précise explicitement que l'historique n'est pas requis
 pour le POC. La chaîne est volontairement stateless.
+
+**Pourquoi pas RAGAS pour l'évaluation ?**
+Les consignes demandent de mesurer la qualité « par rapport aux réponses
+annotées » (même sens + mêmes informations) — exactement ce que couvrent
+les métriques maison cosine + LLM-as-judge. Vérifié sur PyPI (ragas
+0.4.3) : RAGAS dépend directement de `openai` et `langchain_openai`, plus
+`datasets` HuggingFace (~150-200 Mo) ; importer l'écosystème OpenAI dans
+un POC 100 % Mistral serait incohérent, pour des métriques (faithfulness,
+context precision) hors du périmètre demandé. RAGAS est gardé en
+recommandation v1 pour industrialiser l'évaluation en CI.
 
 ---
 

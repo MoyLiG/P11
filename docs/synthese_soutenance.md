@@ -153,6 +153,29 @@ ici l'index est parfait, c'est le modèle. »
 
 ---
 
+## 5 bis. RAGAS — pourquoi je ne l'ai pas utilisé
+
+Si on me demande « pourquoi pas RAGAS ? » (vu en cours) :
+
+- **Les consignes** demandent de mesurer la qualité « par rapport aux
+  réponses annotées » (même sens + mêmes informations). Mes métriques
+  maison cosine + juge couvrent exactement ce critère. RAGAS n'est pas
+  demandé.
+- **Vérifié sur PyPI** (ragas 0.4.3) : il dépend directement de `openai`
+  et `langchain_openai`, plus `datasets` HuggingFace (~150-200 Mo).
+  Importer l'écosystème d'un concurrent (OpenAI) dans un POC 100 %
+  Mistral serait incohérent, pour des métriques hors-périmètre.
+- **J'ai fait l'esprit de RAGAS à la main** : la *faithfulness*
+  (anti-hallucination) = mon verrou de périmètre (cas « capitale de
+  l'Italie ») ; la *context precision* = mon filtre anti-bruit (13 % de
+  bruit retiré). RAGAS aurait chiffré automatiquement ces deux choses.
+- **Gardé en reco v1** : pour industrialiser l'éval en CI nocturne, en le
+  branchant explicitement sur Mistral.
+
+À dire : « Je connais RAGAS, je sais ce qu'il apporterait — faithfulness
+et context precision — et je l'ai mis en reco v1. Au POC, j'ai mesuré ce
+que demande la consigne, sans importer l'écosystème OpenAI. »
+
 ## 6. Le récit du tuning (storytelling fort)
 
 À raconter pour montrer une vraie démarche d'ingénierie :
@@ -246,6 +269,28 @@ requête, taux d'erreur API.
   monitoring de drift.
 
 ---
+
+## 9 bis. Commandes Docker (démo live)
+
+| Commande | Rôle |
+|---|---|
+| `docker compose build` | Construit l'image (après modif de code) |
+| `docker compose run --rm rag python scripts/pipeline.py` | fetch + tests + index (jetable) |
+| `docker compose run --rm -it rag python scripts/03_run_chatbot_cli.py` | CLI interactif (`-it` requis) |
+| `docker compose run --rm rag python scripts/05_evaluate.py --runs 3` | évaluation multi-run |
+| `docker compose up rag` | démo Streamlit (port 8501) |
+| `docker compose stop` / `start` | arrêt / redémarrage (conserve le container) |
+| `docker compose down [--rmi local]` | supprime container (+ image) |
+| `docker compose ps` | liste les containers |
+
+**Persistance** : `./data/` (index FAISS, cache, dump, résultats) est un
+**bind mount** = dossier du disque hôte → survit à `stop`, `start`, `down`.
+Seul l'état mémoire Streamlit (historique affiché, compteur) est perdu à
+l'arrêt. Au redémarrage, l'index est rechargé depuis le disque (instantané).
+
+À dire si on me demande la démo : « Je lance `docker compose up rag`,
+l'index est déjà construit et persisté sur disque, donc le bot répond
+immédiatement. »
 
 ## 10. Chiffres clés à retenir
 

@@ -9,7 +9,7 @@ rank_bm25==0.2.2          # backend BM25 pour EnsembleRetriever (hybrid search)
 
 # --- Data & ingestion ---
 pandas==2.2.3
-requests==2.32.3
+requests==2.33.0
 tenacity==9.0.0
 beautifulsoup4==4.12.3
 python-dateutil==2.9.0

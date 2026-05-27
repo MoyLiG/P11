@@ -27,3 +27,17 @@ Thumbs.db
 
 # Claude Code (config locale)
 .claude/
+
+# Traces de l'outillage / process (non publies sur GitHub)
+CLAUDE.md
+tasks/
+
+# Scripts de generation d'artefacts (doc / presentation)
+scripts/build_docs.py
+scripts/build_pptx.py
+scripts/build_pptx_variants.py
+
+# docs/ : seul le rapport technique (livrable) est versionne.
+# Sources .md, presentation (refaite separement), deroule, synthese : exclus.
+docs/*
+!docs/rapport_technique.docx

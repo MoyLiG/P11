@@ -1,6 +1,5 @@
 # POC RAG Puls-Events
 
-> **Projet 11 — Formation Data Engineer (OpenClassrooms)**
 > Proof of Concept d'un chatbot RAG (Retrieval-Augmented Generation) sur les
 > événements culturels publics d'**Open Agenda**, restreints à la région
 > **Pays de la Loire** et aux **événements de moins d'un an**.
@@ -118,8 +117,10 @@ P11/
 │   ├── 02_build_index.py             ← preprocess + index FAISS → data/vectorstore/
 │   ├── 03_run_chatbot_cli.py         ← CLI interactif
 │   ├── 04_run_streamlit.py           ← lance l'app Streamlit
-│   ├── 05_evaluate.py                ← évalue sur qa_dataset.json
-│   └── pipeline.py                   ← orchestration end-to-end
+│   ├── 05_evaluate.py                ← évalue sur qa_dataset.json (--runs N)
+│   ├── 06_debug_query.py             ← inspecte le retriever (debug)
+│   ├── 07_eval_candidates.py         ← aide à l'annotation du jeu Q/R
+│   └── pipeline.py                   ← orchestration end-to-end (fetch → tests → index)
 │
 ├── app.py                            ← démo Streamlit
 │
@@ -128,6 +129,7 @@ P11/
 │   ├── test_data_freshness.py        ← OBLIGATOIRE : events < 1 an
 │   ├── test_data_geography.py        ← OBLIGATOIRE : région = Pays de la Loire
 │   ├── test_preprocessing.py
+│   ├── test_retriever.py
 │   └── test_vectorstore.py
 │
 ├── data/
@@ -136,16 +138,11 @@ P11/
 │   ├── vectorstore/                  ← FAISS index (gitignore)
 │   └── eval/qa_dataset.json          ← 20 paires Q/R annotées (commitées)
 │
-├── docs/
-│   ├── rapport_technique.docx        ← rapport 5-10 pages (livrable 3)
-│   ├── deroule_projet.docx           ← narratif pédagogique
-│   ├── journal.md                    ← journal de bord chronologique
-│   └── presentation.pptx             ← support soutenance (10-15 slides)
-│
-└── tasks/
-    ├── todo.md
-    └── lessons.md
+└── docs/
+    └── rapport_technique.docx        ← rapport technique (livrable 3)
 ```
+
+> La présentation de soutenance est réalisée séparément et n'est pas versionnée dans ce dépôt.
 
 ---
 
@@ -393,7 +390,7 @@ Le rapport CSV est sauvegardé dans `data/eval/results.csv`.
 | **L2** Scripts pré-processing + vectorisation + tests unitaires | `src/pulsevents_rag/{ingestion,preprocessing,vectorstore}.py`, `scripts/01_*.py`, `scripts/02_*.py`, `tests/*.py` |
 | **L3** Rapport technique + code RAG | `docs/rapport_technique.docx`, `src/pulsevents_rag/rag.py`, `app.py`, `scripts/03_*.py`, `scripts/04_*.py` |
 | Bonus jeu test annoté + script éval | `data/eval/qa_dataset.json`, `scripts/05_evaluate.py` |
-| Présentation soutenance | `docs/presentation.pptx` |
+| Présentation soutenance | réalisée séparément (non versionnée) |
 
 ---
 
@@ -450,4 +447,4 @@ recommandation v1 pour industrialiser l'évaluation en CI.
 ## Auteur
 
 **Morgan Le Gall** — moy.morgan@gmail.com
-Projet 11, formation Data Engineer, OpenClassrooms — janvier 2026.
+Formation Data Engineer, OpenClassrooms — mai 2026.

@@ -4,8 +4,7 @@
 
 Ce projet est un **POC académique** (OpenClassrooms, formation Data Engineer).
 Il n'est pas destiné à un déploiement en production en l'état. Un audit
-complet a été réalisé (voir `docs/journal.md` § J7-Audit) et les mesures
-de durcissement minimales ont été appliquées.
+complet a été réalisé et les mesures de durcissement minimales ont été appliquées.
 
 ## Modèle de menace retenu
 

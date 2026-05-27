@@ -24,7 +24,7 @@ PyYAML==6.0.2
 streamlit==1.40.1
 
 # --- Tests ---
-pytest==8.3.3
+pytest==9.0.3
 pytest-cov==6.0.0
 
 # --- Notebooks / dev (optionnel) ---

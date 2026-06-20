@@ -1,5 +1,5 @@
 # --- Core RAG stack (impose par les consignes) ---
-langchain==0.3.7
+langchain==1.3.9
 langchain-core==0.3.21
 langchain-community==0.3.7
 langchain-mistralai==0.2.2

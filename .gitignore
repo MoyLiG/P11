@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Env
+.venv/
+venv/
+.env
+
+# Donnees brutes / index / caches (regenerables)
+data/raw/
+data/processed/
+data/vectorstore/
+data/embed_cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Claude Code (config locale)
+.claude/
+
+# Traces de l'outillage / process (non publies sur GitHub)
+CLAUDE.md
+tasks/
+
+# Scripts de generation d'artefacts (doc / presentation)
+scripts/build_docs.py
+scripts/build_pptx.py
+scripts/build_pptx_variants.py
+
+# docs/ : seul le rapport technique (livrable) est versionne.
+# Sources .md, presentation (refaite separement), deroule, synthese : exclus.
+docs/*
+!docs/rapport_technique.docx
+
+# Données (non publiées)
+data/
